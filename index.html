@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Conheça Jaque e Thiago, da Sonare Acústico. Voz e violão ao vivo para casamentos, hotelaria, eventos e encontros especiais.">
+<meta name="theme-color" content="#241b17">
+<title>Sonare Acústico — Música ao vivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1b1512;
+    --surface:#241c17;
+    --surface-2:#2c2119;
+    --line:#3c2f26;
+    --gold:#c9a15b;
+    --gold-soft:#e3c98d;
+    --wine:#7a3030;
+    --ink:#f3ead9;
+    --ink-dim:#c8b9a6;
+    --ink-faint:#9c8b78;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--gold); color:#1b1512;}
+
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  /* ---------- texture ---------- */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(ellipse at 20% -10%, rgba(201,161,91,0.10), transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(122,48,48,0.12), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(27,21,18,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.25rem;
+    letter-spacing:0.01em;
+    text-decoration:none;
+  }
+  .brand span{color:var(--gold);}
+  .nav-links{
+    display:flex; align-items:center; gap:34px;
+    list-style:none; margin:0; padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    font-size:0.82rem;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    transition:color .2s ease;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--gold-soft);}
+  .nav-ig{
+    display:flex; align-items:center; gap:8px;
+    border:1px solid var(--line);
+    padding:9px 16px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:0.78rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .nav-ig:hover{border-color:var(--gold); color:var(--gold-soft);}
+  .menu-toggle{display:none;}
+
+  @media (max-width:820px){
+    .nav-links{display:none;}
+    .brand{font-size:1.1rem;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:190px 0 120px;
+    z-index:1;
+  }
+  .eyebrow{
+    display:flex; align-items:center; gap:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:28px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px; height:1px;
+    background:var(--gold);
+  }
+  h1.title{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:clamp(3rem, 8vw, 6.4rem);
+    line-height:0.98;
+    margin:0 0 30px;
+    max-width:900px;
+    letter-spacing:-0.01em;
+  }
+  h1.title em{
+    color:var(--gold-soft);
+    font-style:italic;
+  }
+  .hero-sub{
+    max-width:520px;
+    font-size:1.13rem;
+    line-height:1.65;
+    color:var(--ink-dim);
+    margin:0 0 46px;
+  }
+  .category-strip{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:44px;
+  }
+  .category-strip .dot{color:var(--ink-faint);}
+
+  .cta-row{
+    display:flex; flex-wrap:wrap; gap:16px;
+    margin-bottom:90px;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 28px;
+    text-decoration:none;
+    font-size:0.86rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    border-radius:999px;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+  }
+  .btn-primary{
+    background:var(--gold);
+    color:#1b1512;
+    font-weight:600;
+  }
+  .btn-primary:hover{background:var(--gold-soft); transform:translateY(-2px);}
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold-soft); transform:translateY(-2px);}
+
+  /* repertorio buttons */
+  .repertorio-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:18px;
+    margin-top:40px;
+  }
+  .repertorio-btn{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+    padding:26px 28px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--surface);
+    text-decoration:none;
+    color:var(--ink);
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.3rem;
+    transition:border-color .25s ease, background .25s ease, transform .25s ease;
+  }
+  .repertorio-btn:hover{
+    border-color:var(--gold);
+    background:var(--surface-2);
+    transform:translateY(-2px);
+  }
+  .repertorio-btn svg{flex-shrink:0; color:var(--gold);}
+  @media (max-width:640px){
+    .repertorio-grid{grid-template-columns:1fr;}
+  }
+
+  /* waveform */
+  .waveform{
+    display:flex;
+    align-items:flex-end;
+    gap:5px;
+    height:96px;
+    max-width:900px;
+  }
+  .waveform .bar{
+    flex:1 1 auto;
+    min-width:2px;
+    max-width:6px;
+    background:linear-gradient(180deg, var(--gold) 0%, var(--wine) 130%);
+    opacity:0.85;
+    border-radius:3px;
+    transform-origin:bottom;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%, 100%{transform:scaleY(var(--min,0.25));}
+    50%{transform:scaleY(var(--max,1));}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .waveform .bar{animation:none; transform:scaleY(0.6);}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- section shared ---------- */
+  section{
+    position:relative;
+    z-index:1;
+    padding:110px 0;
+    border-top:1px solid var(--line);
+  }
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.76rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 18px;
+  }
+  h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(2.1rem, 4vw, 3rem);
+    margin:0 0 28px;
+    max-width:640px;
+    line-height:1.08;
+  }
+  .lede{
+    max-width:560px;
+    color:var(--ink-dim);
+    font-size:1.05rem;
+    line-height:1.7;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{opacity:1; transform:none;}
+
+  /* ---------- sobre ---------- */
+  .sobre-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:70px;
+    align-items:start;
+    margin-top:56px;
+  }
+  .feature-list{
+    list-style:none; margin:0; padding:0;
+    display:flex; flex-direction:column;
+  }
+  .feature-list li{
+    display:flex; gap:20px;
+    padding:22px 0;
+    border-top:1px solid var(--line);
+  }
+  .feature-list li:last-child{border-bottom:1px solid var(--line);}
+  .feature-num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--gold);
+    font-size:0.85rem;
+    padding-top:3px;
+  }
+  .feature-list h3{
+    margin:0 0 6px;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.12rem;
+  }
+  .feature-list p{
+    margin:0; color:var(--ink-faint); font-size:0.94rem; line-height:1.55;
+  }
+  @media (max-width:900px){
+    .sobre-grid{grid-template-columns:1fr; gap:40px;}
+  }
+
+  /* ---------- repertorio ---------- */
+  .setlist{
+    margin-top:56px;
+    border-top:1px solid var(--line);
+  }
+  .set-row{
+    display:grid;
+    grid-template-columns:64px 1fr auto;
+    align-items:center;
+    gap:24px;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .set-row .track-no{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--ink-faint);
+    font-size:0.85rem;
+  }
+  .set-row .track-name{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.3rem;
+    color:var(--ink);
+  }
+  .set-row a.track-name{
+    text-decoration:none;
+    transition:color .2s ease;
+  }
+  .set-row a.track-name:hover{
+    color:var(--gold-soft);
+  }
+  .set-row .track-tags{
+    display:flex; gap:8px; flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:999px;
+  }
+  @media (max-width:640px){
+    .set-row{grid-template-columns:36px 1fr; row-gap:10px;}
+    .set-row .track-tags{grid-column:2; justify-content:flex-start;}
+  }
+
+  .repertorio-cta{
+    margin-top:44px;
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:24px;
+  }
+  .repertorio-cta p{
+    margin:0;
+    color:var(--ink-dim);
+    max-width:420px;
+    line-height:1.6;
+  }
+
+  /* ---------- galeria ---------- */
+  .galeria-panel{
+    margin-top:56px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:56px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .galeria-panel::after{
+    content:"";
+    position:absolute;
+    right:-60px; top:-60px;
+    width:220px; height:220px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    opacity:0.15;
+  }
+  .galeria-panel h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.8rem;
+    margin:0 0 14px;
+  }
+  .galeria-panel p{
+    color:var(--ink-dim);
+    max-width:440px;
+    line-height:1.65;
+    margin:0;
+  }
+  .dropbox-btn{
+    display:inline-flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+    background:var(--gold);
+    color:#1b1512;
+    text-decoration:none;
+    padding:20px 30px;
+    border-radius:4px;
+    font-weight:600;
+    white-space:nowrap;
+    transition:transform .25s ease, background .25s ease;
+  }
+  .dropbox-btn:hover{background:var(--gold-soft); transform:translateY(-2px);}
+  .dropbox-btn .db-label{font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; opacity:0.75;}
+  .dropbox-btn .db-main{font-size:1.02rem; display:flex; align-items:center; gap:10px;}
+
+  @media (max-width:760px){
+    .galeria-panel{grid-template-columns:1fr; padding:36px 28px;}
+    .dropbox-btn{width:100%;}
+  }
+
+  .preview-grid{
+    margin-top:34px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  .preview-item{
+    position:relative;
+    margin:0;
+    aspect-ratio:3/4;
+    border-radius:6px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--surface-2);
+  }
+  .preview-item img,
+  .preview-item video{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .5s ease;
+  }
+  .preview-item:hover img{transform:scale(1.05);}
+  .preview-item::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 55%, rgba(20,15,12,0.85) 100%);
+    pointer-events:none;
+    z-index:1;
+  }
+  .preview-item figcaption{
+    position:absolute;
+    left:16px; bottom:14px;
+    z-index:2;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  .preview-video video{aspect-ratio:3/4;}
+  .play-btn{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    z-index:2;
+    width:56px; height:56px;
+    border-radius:50%;
+    border:1px solid rgba(243,234,217,0.5);
+    background:rgba(27,21,18,0.55);
+    backdrop-filter:blur(4px);
+    color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:background .2s ease, transform .2s ease, border-color .2s ease;
+  }
+  .play-btn:hover{background:var(--gold); color:#1b1512; border-color:var(--gold); transform:translate(-50%,-50%) scale(1.06);}
+  .play-btn svg{margin-left:3px;}
+
+  @media (max-width:760px){
+    .preview-grid{grid-template-columns:1fr 1fr; }
+    .preview-grid .preview-item:nth-child(3){grid-column:1 / -1;}
+  }
+  @media (max-width:480px){
+    .preview-grid{grid-template-columns:1fr;}
+    .preview-grid .preview-item:nth-child(3){grid-column:auto;}
+  }
+
+  /* ---------- contato ---------- */
+  .contato{
+    text-align:left;
+  }
+  .contato-grid{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:40px;
+    margin-top:40px;
+  }
+  .ig-handle{
+    display:inline-flex; align-items:center; gap:14px;
+    text-decoration:none;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    color:var(--ink);
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .ig-handle:hover{color:var(--gold-soft); border-color:var(--gold);}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:34px 0;
+  }
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--ink-faint);
+  }
+
+:root{--bg:#151714;--surface:#20231e;--surface-2:#292d25;--line:#3c4035;--gold:#c2ba8a;--gold-soft:#e4dcb1;--ink:#f4f0e5;--ink-dim:#c7c8b9;--ink-faint:#a6ab99}
+body::before{background:radial-gradient(ellipse at 0 20%,#45482c22,transparent 55%)}
+.wrap{max-width:1240px;padding-inline:48px}section{scroll-margin-top:75px;padding:100px 0}header{background:#151714e8;border-color:#ffffff12}nav.wrap{height:76px}.brand{font-size:24px}.nav-links{gap:24px}.nav-links a{font-size:11px}.nav-ig{font-size:11px}.hero{padding:140px 0 65px!important;overflow:hidden}.hero-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}.hero .eyebrow{font-size:10px;letter-spacing:.22em}.hero h1.title{font-style:normal;font-size:clamp(60px,7.8vw,106px);line-height:1.02;letter-spacing:-.065em}.hero h1.title em{font-weight:400}.hero-sub{font-size:16px;max-width:430px;margin-bottom:25px}.hero .cta-row{margin:32px 0}.btn{font-size:11px;padding:18px 25px;letter-spacing:.06em}.category-strip{font-size:9px;gap:9px;margin-bottom:0}.hero-photo{position:relative;margin:0;height:620px;overflow:hidden;border-radius:220px 220px 4px 4px}.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 57%;animation:photo-enter 1.4s ease-out both}.hero-photo:after{content:'';position:absolute;inset:60% 0 0;background:linear-gradient(transparent,#10130fe8)}.hero-photo figcaption{position:absolute;z-index:2;bottom:25px;left:30px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}.hero-photo figcaption span{display:block;font:italic 32px Fraunces,serif;letter-spacing:0;text-transform:none;margin-bottom:8px}.hero-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:52px;border-top:1px solid var(--line);padding-top:25px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint)}.waveform{height:25px;width:180px;gap:3px;align-items:center}.waveform .bar{height:25px;background:var(--gold)}
+h2{font-size:clamp(34px,4.5vw,58px);letter-spacing:-.045em;max-width:780px}.kicker{font-size:10px;color:var(--gold);letter-spacing:.2em}.section-intro{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:45px}.section-intro h2{margin:0}.section-intro .lede{max-width:330px;margin:0;font-size:14px}.film{aspect-ratio:16/9;position:relative;overflow:hidden;border:1px solid #676a50;border-radius:5px;background:#20271d}.film-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 55%;opacity:.2;filter:blur(2px)}.film-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;background:linear-gradient(90deg,#13180e66,#13180e22)}.film-content strong{font:italic clamp(32px,6vw,76px) Fraunces,serif;letter-spacing:-.04em}.film-content p{font-size:12px;color:var(--ink-dim);line-height:1.6}.film-tag{border:1px solid #e4dcb155;border-radius:100px;padding:9px 15px;font-size:9px;text-transform:uppercase;letter-spacing:.15em;margin-top:24px}.film-labels{display:flex;justify-content:space-between;margin-top:15px;font-size:10px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase}.film video{width:100%;height:100%;object-fit:contain;background:#000}.duo{background:#ece9df;color:#292e24}.duo .kicker{color:#666b4d}.duo .lede{color:#666a5e}.artist-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:55px}.artist-photo{height:470px;overflow:hidden;background:#d4d0c3}.artist-photo img{width:100%;height:100%;object-fit:cover;object-position:center 55%;transition:transform .8s}.artist-photo.jaque img{width:190%;max-width:none;object-fit:cover;object-position:left 52%}.artist:hover img{transform:scale(1.035)}.artist-heading{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #bfc0b2;padding:22px 0 15px}.artist h3{font:45px Fraunces,serif;margin:0;letter-spacing:-.04em}.artist-role{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.artist p{font-size:15px;line-height:1.8;max-width:450px;color:#5d6256}.duo-note{font:italic 27px Fraunces,serif;text-align:center;margin:55px 0 0}.sobre-grid{margin-top:30px;gap:70px}.feature-list h3{font-size:22px}.feature-list p{font-size:14px}.repertorio-btn{background:transparent;padding:30px 0;border-width:0 0 1px;border-radius:0;font-size:26px}.repertorio-grid{column-gap:60px}.galeria-panel{padding:30px;background:transparent;margin-top:30px}.galeria-panel h3{font-size:25px}.galeria-panel p{font-size:14px}.preview-grid{gap:22px}.preview-item{border-radius:3px}.contato{background:#262d22}.contato h2{max-width:850px;font-size:clamp(45px,6vw,78px)}.footer-row{font-family:'Work Sans',sans-serif;font-size:11px}.reveal{opacity:1;transform:none}.js-motion .reveal{opacity:0;transform:translateY(24px)}.js-motion .reveal.in{opacity:1;transform:none}.hero-copy{animation:rise-in .9s ease both}.menu-toggle{font:inherit;color:var(--ink);background:none;border:1px solid var(--line);border-radius:30px;padding:10px 15px}.motion-toggle{border:1px solid var(--line);background:none;color:var(--ink-dim);border-radius:30px;padding:10px 15px;font:inherit;font-size:10px;cursor:pointer}.motion-off *, .motion-off *::before,.motion-off *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.motion-off .reveal{opacity:1!important;transform:none!important}.skip-link{position:fixed;left:15px;top:-100px;z-index:100;background:var(--gold);color:var(--bg);padding:15px}.skip-link:focus{top:15px}@keyframes rise-in{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}@keyframes photo-enter{from{opacity:.2;transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
+@media(max-width:820px){.wrap{padding-inline:24px}.menu-toggle{display:block}.nav-ig{display:none}.nav-links.open{display:flex;position:absolute;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--bg);padding:25px;gap:0;border-bottom:1px solid var(--line)}.nav-links.open a{display:block;padding:15px}.hero{padding-top:115px!important}.hero-layout{gap:30px}.hero h1.title{font-size:64px}.hero-photo{height:510px}.artist-photo{height:370px}.section-intro{display:block}.section-intro .lede{margin-top:24px;max-width:520px}.artist-grid{gap:25px}.hero .cta-row{gap:10px}.btn{padding:16px 18px}}
+@media(max-width:600px){section{padding:70px 0}.hero-layout{grid-template-columns:1fr}.hero h1.title{font-size:clamp(48px,15.5vw,70px)}.hero-photo{height:440px;border-radius:170px 170px 3px 3px}.hero-sub{font-size:15px}.hero-bottom{margin-top:30px;font-size:8px}.waveform{width:105px}.artist-grid{grid-template-columns:1fr;gap:32px}.artist-photo{height:430px}.film-labels{font-size:8px}.film-content p{font-size:10px;margin:10px 0}.film-tag{margin-top:8px;font-size:8px}.film-content strong{font-size:35px}.artist-heading h3{font-size:40px}.preview-grid{grid-template-columns:1fr 1fr;gap:12px}.preview-grid .preview-video{grid-column:1/-1;aspect-ratio:3/4;max-height:550px}.galeria-panel{padding:24px}.duo-note{font-size:24px}.footer-row{gap:20px}.hero-bottom>span{max-width:160px;line-height:1.7}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.js-motion .reveal{opacity:1;transform:none}}
+
+/* Sonare: dourado da marca, papel creme e luz quente. */
+:root{--bg:#faf5eb;--surface:#f2e7d5;--surface-2:#ead8bc;--line:#d9c5a6;--gold:#946013;--gold-soft:#80500e;--wine:#7e4330;--ink:#39291e;--ink-dim:#695342;--ink-faint:#79624c}
+body{background:var(--bg)}
+body::before{background:radial-gradient(ellipse at 95% 5%,#dfb36d30,transparent 48%),radial-gradient(ellipse at 0% 58%,#e5bc7930,transparent 52%);z-index:0}
+header{background:#faf5ebed;border-bottom:1px solid #ddc9aa80;box-shadow:0 3px 24px #66431d05}
+.brand{color:#493222}.brand span{color:#a57019}
+.hero{background:radial-gradient(ellipse at 90% 30%,#eed7b24f,transparent 58%)}
+.hero-photo{box-shadow:0 24px 65px #6d461b1c}.hero-photo:after{background:linear-gradient(transparent,#382414dd)}
+.hero-photo figcaption{color:#fff7e9}
+.btn-primary,.dropbox-btn{background:#a57019;color:#fffaf2}.btn-primary:hover,.dropbox-btn:hover{background:#855710;color:#fffaf2}
+.btn-ghost{background:#fffaf34d;border-color:#cdb18a}.btn-ghost:hover{background:#f1e2ca;color:#674514}
+.waveform .bar{background:linear-gradient(#bb8837,#936017)}
+#institucional{background:#f3e8d7}
+.film{background:#4d3324;border-color:#c9a66e;box-shadow:0 20px 55px #6b431315}
+.film-bg{opacity:.28;filter:blur(2px) sepia(.12)}
+.film-content{background:linear-gradient(105deg,#3e251ba6,#62422266);color:#fff4df}
+.film-content p{color:#f4e5cf}.film-tag{border-color:#e5bf8070;color:#f8e6c8}
+.duo{background:#fffcf5;color:#39291e}.duo .kicker{color:#946013}.duo .lede{color:#695342}
+.artist-photo{background:#e5d2b6}.artist-heading{border-color:#ddc9ab}.artist p{color:#695342}.artist-role{color:#8a5b20}
+#sobre{background:linear-gradient(125deg,#f5e9d7,#faf4e9)}
+#repertorio{background:#fffcf6}.repertorio-btn:hover{background:#f2e5cf}
+#galeria{background:radial-gradient(ellipse at 95% 30%,#e6c59330,transparent 70%),#f5ecdd}
+.galeria-panel{background:#fffaf378;border-color:#ddc7a5}.galeria-panel::after{border-color:#b17a25}
+.preview-item{border-color:#d2b98e}.preview-item::before{background:linear-gradient(180deg,transparent 55%,#362116e6)}.preview-item figcaption{color:#fff6e7}
+.play-btn{color:#fff6e7;background:#493023a6;border-color:#fff0d7a0}.play-btn:hover{background:#a57019;color:#fffaf2;border-color:#d8b679}
+.contato{background:radial-gradient(ellipse at 100% 10%,#e5b96735,transparent 65%),#eee0c9}
+footer{position:relative;background:#faf5eb}.motion-toggle:hover{background:#eee0c9}
+.skip-link{background:#a57019;color:white}
+@media(max-width:820px){.nav-links.open{background:#faf5eb}.menu-toggle{border-color:#cdb18a}}
+
+
+/* Composição inspirada na referência, com identidade Sonare. */
+:root{--bg:#241b17;--surface:#30241d;--surface-2:#3c2d23;--line:#514033;--gold:#d8af69;--gold-soft:#eed3a5;--ink:#fff8ec;--ink-dim:#d4c3b3;--ink-faint:#bea995}
+body{background:#241b17}body::before{background:radial-gradient(ellipse at 100% 15%,#ac6d2420,transparent 60%)}
+header{background:#241b17f2;border-color:#dfb27316;box-shadow:none}.brand{color:#fff5e3}.brand span{color:#d8af69}.nav-ig{background:#efdec1;color:#34271b;border:0;padding:14px 22px}.nav-ig:hover{background:#fff0d5;color:#34271b}
+.wrap{max-width:1240px;padding-inline:44px}.hero{padding:100px 0 25px!important;background:none}.hero>.wrap{max-width:1440px;padding-inline:30px}.hero-layout{position:relative;display:flex;align-items:center;min-height:650px;border-radius:26px;overflow:hidden;padding:70px 50px;background:#302117}.hero-copy{position:relative;z-index:3;max-width:660px}.hero-photo{position:absolute;inset:0;margin:0;height:100%;width:100%;border-radius:0;box-shadow:none}.hero-photo img{object-position:85% 53%;object-fit:cover;animation:photo-enter 1.4s ease-out both}.hero-photo::after{inset:0;background:linear-gradient(90deg,#1e1511f5 0%,#241911dc 36%,#261b1455 66%,#21171118),linear-gradient(0deg,#201711aa,transparent 40%)}.hero-photo figcaption{left:auto;right:35px;bottom:30px;font-size:9px;text-align:right}.hero-photo figcaption span{font-size:24px}.hero h1.title{font-family:'Work Sans',sans-serif;font-size:clamp(44px,5vw,68px);font-weight:600;line-height:1.08;letter-spacing:-.055em;color:#fff9ee;max-width:610px;margin-bottom:25px}.hero h1.title em{font-style:normal;font-weight:600;color:#e6bd7c}.hero .eyebrow{display:inline-flex;padding:10px 15px;border:1px solid #ecd6b84a;border-radius:50px;color:#f7e7ce;font-size:10px;letter-spacing:.12em}.hero .eyebrow::before{display:none}.hero-sub{color:#ecdfd0;max-width:510px;font-size:17px;line-height:1.65}.hero .category-strip{color:#e2cba9}.hero .dot{color:#c09c69}.hero .btn-ghost{color:#fff4df;border-color:#ebd4b16b;background:#f8e8d10a}.hero .btn-ghost:hover{background:#f8e8d126}.btn-primary,.dropbox-btn{background:#eddbbc;color:#33251a}.btn-primary:hover,.dropbox-btn:hover{background:#ffeace;color:#33251a}.btn{font-size:11px}.hero-bottom{margin:26px 16px 0;padding-top:22px}.waveform .bar{background:linear-gradient(#eac78f,#bd8536)}
+h2{font-family:'Work Sans',sans-serif;font-weight:500;font-size:clamp(32px,3.5vw,47px);line-height:1.17;letter-spacing:-.045em}h2 em{font-style:normal;color:#e4bd7e}.kicker{display:inline-block;font-family:'Work Sans',sans-serif;border:1px solid var(--line);border-radius:30px;padding:9px 14px;font-size:9px;letter-spacing:.12em;color:#e6d3b7;margin-bottom:24px}.lede{font-size:16px;line-height:1.8}.section-intro .lede{font-size:15px}.section-intro{gap:55px}section{padding:90px 0;border-top-color:#eacb9212}
+#institucional{background:#241b17}.film{border-radius:22px;background:#3a2a1e;border-color:#674b30;box-shadow:0 25px 75px #110a0630}.film-content{background:linear-gradient(105deg,#281a12a6,#66422255)}.film-content strong{font-family:'Work Sans',sans-serif;font-size:clamp(28px,4.5vw,58px);font-weight:500}.film-tag{border-color:#e7c99a55}.film-labels{font-size:9px}
+.duo{background:#2a201a;color:var(--ink)}.duo .kicker{color:#e6d3b7}.duo .lede{color:var(--ink-dim)}.artist-grid{gap:30px;margin-top:40px}.artist{padding:20px 20px 10px;background:linear-gradient(135deg,#37291f,#30241d);border:1px solid #594332;border-radius:24px}.artist-photo{border-radius:15px;height:410px;background:#4c3828}.artist-heading{border-color:#614b374d;padding-top:23px}.artist h3{font-family:'Work Sans',sans-serif;font-size:29px;font-weight:500;letter-spacing:-.03em}.artist-role{color:#e5bc7b;font-size:10px}.artist p{color:#cfbcaa;font-size:14px;line-height:1.8}.duo-note{color:#ebd3ad;font-size:28px;margin-top:45px}
+#sobre{background:#241b17}.feature-list h3{font-family:'Work Sans',sans-serif;font-weight:500;font-size:21px}.feature-list p{color:#c4ae99}.feature-list li{padding:24px 0}.feature-num{color:#ddb679}
+#repertorio{background:#2a201a}.repertorio-grid{gap:18px;margin-top:36px}.repertorio-btn{font-family:'Work Sans',sans-serif;font-style:normal;font-size:21px;padding:28px;border:1px solid #5a4331;border-radius:16px;background:#34271f}.repertorio-btn:hover{background:#423022;border-color:#b08751;transform:translateY(-4px)}
+#galeria{background:#241b17}.galeria-panel{background:#30241d;border-color:#55402e;border-radius:20px}.galeria-panel h3{font-family:'Work Sans',sans-serif;font-size:23px}.galeria-panel::after{border-color:#bb884a}.preview-item{border-radius:18px;border-color:#5c4530}.preview-grid{gap:22px}.dropbox-btn{border-radius:40px}.dropbox-btn svg{display:none}
+.contato{margin:0 30px 45px;border:1px solid #75522e;border-radius:26px;background:radial-gradient(ellipse at 90% 5%,#b6833740,transparent 70%),#3b2a1e}.contato h2{font-size:clamp(36px,4.7vw,64px)}.ig-handle{font-family:'Work Sans',sans-serif;font-style:normal;font-size:clamp(22px,3vw,34px);color:#f1d5a5}.ig-handle:hover{color:#fff1d4}.contato .lede{color:#deccb8}
+footer{background:#241b17}.motion-toggle:hover{background:#443020}.menu-toggle{color:#f4e6d2}.btn-ghost{color:var(--ink);border-color:#806143}.skip-link{background:#eed7af;color:#302015}
+@media(max-width:820px){.wrap{padding-inline:26px}.nav-links.open{background:#241b17}.hero-layout{padding:50px 30px;min-height:630px}.hero-copy{max-width:520px}.hero-photo::after{background:linear-gradient(90deg,#211611e8,#241910aa 60%,#261b1455)}.artist-photo{height:330px}.artist-grid{gap:20px}.artist{padding:14px}.artist-heading{gap:10px}.artist h3{font-size:26px}.artist-role{font-size:9px}.hero-photo figcaption{display:none}.contato{margin-inline:20px}}
+@media(max-width:600px){.hero{padding-top:90px!important}.hero>.wrap{padding-inline:14px}.hero-layout{padding:38px 23px;min-height:660px;border-radius:22px;align-items:flex-end}.hero h1.title{font-size:44px;line-height:1.08;margin-bottom:20px}.hero .eyebrow{font-size:8px;margin-bottom:20px}.hero-sub{font-size:14px;line-height:1.7}.hero-photo img{object-position:60% 44%}.hero-photo::after{background:linear-gradient(0deg,#20140ffa 0%,#26190fe0 45%,#25190f70 75%,#21161020)}.hero .cta-row{margin:25px 0;gap:10px}.hero .btn{font-size:9px;padding:15px 17px}.hero .category-strip{font-size:8px}.hero-bottom{margin-inline:10px;gap:10px}.hero-bottom>span{max-width:135px}.hero-bottom .waveform{width:70px}.hero-bottom>a{font-size:8px}.artist-grid{grid-template-columns:1fr;gap:22px}.artist-photo{height:380px}.artist{padding:17px}.film{border-radius:14px}.film-content strong{font-size:27px}.film-content p{font-size:9px}.film-labels{gap:15px;font-size:7px;line-height:1.7}.contato{margin:0 14px 30px;padding:55px 0}.contato .wrap{padding-inline:24px}.preview-grid{gap:12px}.preview-item{border-radius:12px}.galeria-panel{padding:22px}.repertorio-btn{padding:23px;font-size:19px}}
+
+.hero-bottom .waveform{overflow:hidden;flex-shrink:0}.hero-bottom .waveform .bar{min-width:0;flex:1 1 0}.hero-bottom>a{flex-shrink:0}@media(max-width:600px){.hero-bottom .waveform{gap:1px}} .artist-photo.jaque img{width:100%;max-width:100%;object-fit:cover;object-position:50% 36%} </style>
+<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Sonare Acústico — Jaque e Thiago"><meta property="og:description" content="Voz e violão para momentos especiais. Conheça a Sonare Acústico."></head>
+<body>
+<a class="skip-link" href="#sobre">Pular para o conteúdo</a>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="brand">Sonare <span>Acústico</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button><ul class="nav-links" id="menu">
+      <li><a href="#dupla">A dupla</a></li><li><a href="#institucional">Nosso som</a></li>
+      <li><a href="#repertorio">Repertório</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <a class="nav-ig" href="https://www.instagram.com/sonareacustico/" target="_blank" rel="noopener">@sonareacustico</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<section class="hero"><div class="wrap"><div class="hero-layout"><div class="hero-copy"><p class="eyebrow">Voz, violão & presença</p><h1 class="title">O momento<br>vira <em>música.</em></h1><p class="hero-sub">Jaque na voz. Thiago no violão.<br>Somos a Sonare Acústico: a trilha sonora dos encontros que merecem ficar na memória.</p><div class="cta-row"><a class="btn btn-primary" href="#contato">Vamos criar seu momento ↗</a><a class="btn btn-ghost" href="#galeria">Conheça nosso som ↓</a></div><div class="category-strip"><span>Casamentos</span><span class="dot">·</span><span>Hotelaria</span><span class="dot">·</span><span>Corporativo</span></div></div><figure class="hero-photo"><img src="assets/sonare-b2b54daa4caa1e04.jpg" alt="Jaque cantando e Thiago tocando violão em uma apresentação da Sonare" fetchpriority="high"><figcaption><span>Sonare Acústico</span>Duas pessoas. A mesma sintonia.</figcaption></figure></div><div class="hero-bottom"><span>Música ao vivo, feita para estar perto.</span><div class="waveform" aria-hidden="true" id="waveform"></div><a href="#dupla" aria-label="Conhecer Jaque e Thiago">Explore ↓</a></div></div></section>
+<section id="institucional"><div class="wrap"><div class="section-intro reveal"><div><p class="kicker">01 / Sinta a Sonare</p><h2>Mais que ouvir.<br><em>Sentir o encontro.</em></h2></div><p class="lede">Um olhar de perto para a nossa música, nossa presença e o que acontece quando voz e violão se encontram.</p></div><div class="film reveal" id="institutionalFilm"><video controls playsinline preload="metadata" aria-label="Filme institucional da Sonare Acústico"><source src="assets/sonare-institucional.mp4" type="video/mp4">Seu navegador não suporta vídeo. <a href="assets/sonare-institucional.mp4">Assistir ao filme institucional</a>.</video></div><div class="film-labels"><span>Sonare Acústico / Filme institucional</span><span>Um novo olhar. A mesma essência.</span></div></div></section>
+<section class="duo" id="dupla"><div class="wrap"><p class="kicker">02 / Quem faz a música acontecer</p><h2 class="reveal">Prazer, <em>somos a Sonare.</em></h2><p class="lede reveal">Uma voz que aproxima. Um violão que acompanha. Jaque e Thiago se encontram na música para dar personalidade a cada apresentação.</p><div class="artist-grid"><article class="artist reveal"><div class="artist-photo jaque"><img src="assets/sonare-b58ec60a54c13fc2.jpg" alt="Jaque cantando com um microfone vintage, olhando para a câmera" loading="lazy"></div><div class="artist-heading"><h3>Jaque</h3><span class="artist-role">A voz</span></div><p>É a voz que dá vida às palavras e traz a canção para perto. À frente do microfone, Jaque conduz a interpretação e a conexão com quem está ouvindo.</p></article><article class="artist reveal"><div class="artist-photo"><img src="assets/sonare-b1a631c3f77b9ba4.jpg" alt="Thiago tocando violão na Sonare Acústico" loading="lazy"></div><div class="artist-heading"><h3>Thiago</h3><span class="artist-role">O violão</span></div><p>É das cordas que vêm o ritmo e a harmonia do encontro. No violão, Thiago acompanha a voz de Jaque e dá forma ao som acústico da Sonare.</p></article></div><p class="duo-note reveal">“Nosso encontro. A trilha do seu.”</p></div></section>
+
+  <section id="sobre">
+    <div class="wrap">
+      <p class="kicker">03 / Cada ocasião, uma atmosfera</p>
+      <h2 class="reveal">Seu momento tem um ritmo.<br>A gente encontra o tom.</h2>
+      <div class="sobre-grid">
+        <p class="lede reveal">
+          A Sonare Acústico nasceu da vontade de levar música ao vivo de verdade
+          para eventos — sem playback, sem excesso, só voz, violão e repertório
+          bem escolhido. Cada apresentação é construída para o momento: recepção
+          de convidados, cerimônia, jantar ou happy hour, sempre ajustando o tom
+          e a intensidade para o que a ocasião pede.
+        </p>
+        <ul class="feature-list reveal">
+          <li>
+            <span class="feature-num">01</span>
+            <div>
+              <h3>Casamentos</h3>
+              <p>Cerimônia, cocktail e recepção com transições pensadas para cada etapa da festa.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-num">02</span>
+            <div>
+              <h3>Hotelaria</h3>
+              <p>Ambientação ao vivo para lobbies, restaurantes de hotel e eventos de hóspedes.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-num">03</span>
+            <div>
+              <h3>Corporativo</h3>
+              <p>Trilha sonora discreta e elegante para jantares, coquetéis e confraternizações.</p>
+            </div>
+          </li>
+          <li>
+            <span class="feature-num">04</span>
+            <div>
+              <h3>Evento</h3>
+              <p>Aniversários, formaturas e celebrações que pedem música ao vivo sob medida.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="repertorio">
+    <div class="wrap">
+      <p class="kicker">04 / Repertório</p><h2 class="reveal">Canções que encontram<br>o seu momento.</h2><p class="lede reveal">Explore nossas seleções e imagine a trilha do seu evento.</p>
+
+      <div class="repertorio-grid reveal">
+        <a class="repertorio-btn" href="https://www.cifraclub.com.br/musico/552765032/repertorio/14078020/" target="_blank" rel="noopener">
+          Hotelaria
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+        <a class="repertorio-btn" href="https://www.cifraclub.com.br/musico/552765032/repertorio/14077845/" target="_blank" rel="noopener">
+          Sertanejo &amp; Pagode
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+        <a class="repertorio-btn" href="https://www.cifraclub.com.br/musico/552765032/repertorio/49639089/" target="_blank" rel="noopener">
+          Casamento
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+        <a class="repertorio-btn" href="https://www.cifraclub.com.br/musico/552765032/" target="_blank" rel="noopener">
+          Outros
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="wrap">
+      <p class="kicker">05 / Sonare ao vivo</p>
+      <h2 class="reveal">Um pouco do que se vive por aqui.</h2>
+      <p class="lede reveal">
+        Reunimos registros de apresentações, ensaios e bastidores em uma pasta
+        compartilhada — dá pra ver e ouvir a Sonare Acústico em ação antes de fechar a data.
+      </p>
+
+      <div class="galeria-panel reveal">
+        <div>
+          <h3>Fotos e vídeos completos</h3>
+          <p>Acesse a pasta no Dropbox com o material completo de shows e ensaios da Sonare Acústico.</p>
+        </div>
+        <a class="dropbox-btn" href="https://www.dropbox.com/scl/fo/1hez1av9anv5cial8s73s/AMCl2SDHP89R3QzXdcs0L4M?rlkey=rqog0eap5wew4uen61kw37rrq&st=81kwktq1&dl=0" target="_blank" rel="noopener">
+          <span class="db-label">Pasta compartilhada</span>
+          <span class="db-main">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2L12 6L6 10L0 6L6 2Z" fill="#1b1512" transform="translate(6,0)"/><path d="M18 2L24 6L18 10L12 6L18 2Z" fill="#1b1512" transform="translate(-6,0)"/><path d="M6 10L12 14L6 18L0 14L6 10Z" fill="#1b1512" transform="translate(6,4)"/><path d="M18 10L24 14L18 18L12 14L18 10Z" fill="#1b1512" transform="translate(-6,4)"/><path d="M6 19L12 15L18 19L12 23L6 19Z" fill="#1b1512" transform="translate(0,-1)"/></svg>
+            Abrir no Dropbox
+          </span>
+        </a>
+      </div>
+
+      <div class="preview-grid reveal">
+        <figure class="preview-item">
+          <img src="assets/sonare-b1a631c3f77b9ba4.jpg" alt="Thiago tocando violão ao vivo" loading="lazy">
+          <figcaption>Thiago · nas cordas</figcaption>
+        </figure>
+        <figure class="preview-item">
+          <img src="assets/sonare-f1bc2af732831b42.jpg" alt="Jaque sorrindo durante uma apresentação ao vivo" loading="lazy">
+          <figcaption>Jaque · voz e presença</figcaption>
+        </figure>
+        <figure class="preview-item preview-video" id="videoCard">
+          <img src="assets/sonare-670bb556b108172b.jpg" alt="Prévia em vídeo de apresentação da Sonare Acústico" id="videoPoster">
+          <button class="play-btn" id="playBtn" type="button" aria-label="Reproduzir vídeo de apresentação">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <figcaption>Vídeo do show</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="contato">
+    <div class="wrap">
+      <p class="kicker">06 / Vamos conversar</p>
+      <h2 class="reveal">Que som você quer<br>dar à sua história?</h2>
+      <p class="lede reveal">Fale com a gente pelo Instagram — respondemos por lá com disponibilidade de data e valores.</p>
+      <div class="contato-grid reveal">
+        <a class="ig-handle" href="https://www.instagram.com/sonareacustico/" target="_blank" rel="noopener">
+          @sonareacustico ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>Sonare Acústico — Música ao vivo</span>
+    <span>Jaque & Thiago · Voz e violão</span>
+  </div>
+<div class="wrap" style="margin-top:22px"><button class="motion-toggle" type="button" aria-pressed="false">Pausar animações</button></div></footer>
+
+<script>
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("js-motion");
+  // waveform bars
+  (function(){
+    var wf = document.getElementById('waveform');
+    var n = 46;
+    for(var i=0;i<n;i++){
+      var bar = document.createElement('div');
+      bar.className = 'bar';
+      var min = (0.15 + Math.random()*0.25).toFixed(2);
+      var max = (0.55 + Math.random()*0.45).toFixed(2);
+      bar.style.setProperty('--min', min);
+      bar.style.setProperty('--max', max);
+      bar.style.animationDelay = (Math.random()*1.8).toFixed(2) + 's';
+      bar.style.animationDuration = (1.3 + Math.random()*1.1).toFixed(2) + 's';
+      wf.appendChild(bar);
+    }
+  })();
+
+  // video preview play
+  (function(){
+    var card = document.getElementById('videoCard');
+    var btn = document.getElementById('playBtn');
+    var poster = document.getElementById('videoPoster');
+    if(!card || !btn) return;
+    btn.addEventListener('click', function(){
+      var video = document.createElement('video');
+      video.src = 'assets/sonare-48f92f55f2f81cb3.mp4';
+      video.preload = "metadata";
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.setAttribute('aria-label', 'Vídeo de apresentação da Sonare Acústico');
+      poster.replaceWith(video);
+      btn.remove();
+      card.querySelector('figcaption').remove();
+    });
+  })();
+
+  (function(){
+    var items = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    items.forEach(function(el){ obs.observe(el); });
+  })();
+
+const menuButton=document.querySelector('.menu-toggle');const menu=document.querySelector('.nav-links');
+function closeMenu(){menu.classList.remove('open');menuButton.setAttribute('aria-expanded','false')}
+menuButton.addEventListener('click',()=>{let open=menu.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open))});menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu()}});
+document.querySelector('.motion-toggle').addEventListener('click',function(){const off=document.documentElement.classList.toggle('motion-off');this.setAttribute('aria-pressed',String(off));this.textContent=off?'Ativar animações':'Pausar animações'});
+
+</script>
+
+</body>
+</html>
